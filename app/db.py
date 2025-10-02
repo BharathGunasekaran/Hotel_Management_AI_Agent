@@ -6,7 +6,7 @@ import os # Import os to access environment variables
 # For demonstration, I'm using placeholders that assume env vars are set.
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_USER = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "xxxxx") # IMPORTANT: Set this securely!
+DB_PASSWORD = os.getenv("DB_PASSWORD", "bharath") # IMPORTANT: Set this securely!
 DB_DATABASE = os.getenv("DB_DATABASE", "hotel_db")
 
 
