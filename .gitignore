@@ -1,0 +1,37 @@
+Python cache and environment files
+pycache/
+*.pyc
+*.pyo
+*.pyd
+.venv
+venv/
+env/
+*.egg-info/
+dist/
+
+Operating System generated files
+.DS_Store
+Thumbs.db
+
+IDE/Editor specific files (adjust as needed)
+.vscode/
+.idea/
+*.swp
+
+Jupyter Notebook files
+.ipynb_checkpoints
+
+Configuration and Secret files (CRITICAL for security)
+Database connection details (db.py uses env vars, but if any config existed, it would go here)
+Since you are using FastAPI/Uvicorn, we must ignore environment variables set locally.
+.env
+.flaskenv
+
+Log files and temporary data
+*.log
+*~
+*.bak
+
+Specific to your project:
+Agent notebook output (since it uses ngrok and public_url)
+agent.ipynb

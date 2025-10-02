@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Agent Simple UI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #333; color: #f0f0f0; }
+        .container { max-width: 800px; margin: auto; background-color: #444; padding: 20px; border-radius: 8px; }
+        h2 { border-bottom: 2px solid #555; padding-bottom: 10px; color: #00bcd4; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="date"], input[type="email"], input[type="number"] {
+            width: 95%; padding: 10px; border: 1px solid #555; border-radius: 4px; background-color: #555; color: #f0f0f0;
+        }
+        button {
+            padding: 10px 15px; background-color: #00bcd4; color: white; border: none; border-radius: 4px; cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #0097a7; }
+        .output { margin-top: 20px; padding: 15px; border: 1px solid #666; background-color: #222; border-radius: 4px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel Agent AI Interaction</h1>
+
+        <!-- Room Creation -->
+        <h2>Create New Room Type</h2>
+        <div class="form-group">
+            <label for="room_name_create">Room Name (e.g., Suite, Standard):</label>
+            <input type="text" id="room_name_create" value="Economy">
+        </div>
+        <div class="form-group">
+            <label for="room_total_create">Total Rooms Available:</label>
+            <input type="number" id="room_total_create" value="10" min="1">
+        </div>
+        <div class="form-group">
+            <label for="room_price_create">Price Per Night ($):</label>
+            <input type="number" id="room_price_create" value="80.00" step="0.01" min="0.01">
+        </div>
+        <button onclick="createRoomType()">Create Room</button>
+
+        <hr style="border-top: 1px solid #555; margin: 20px 0;">
+        
+        <!-- Availability Check -->
+        <h2>Check Availability</h2>
+        <div class="form-group">
+            <label for="room_type_avail">Room Type (e.g., Deluxe, Standard):</label>
+            <input type="text" id="room_type_avail" value="Deluxe">
+        </div>
+        <div class="form-group">
+            <label for="start_date_avail">Start Date (YYYY-MM-DD):</label>
+            <input type="date" id="start_date_avail" value="2025-10-05">
+        </div>
+        <div class="form-group">
+            <label for="end_date_avail">End Date (YYYY-MM-DD):</label>
+            <input type="date" id="end_date_avail" value="2025-10-07">
+        </div>
+        <button onclick="checkAvailability()">Check Availability</button>
+
+        <hr style="border-top: 1px solid #555; margin: 20px 0;">
+
+        <!-- Booking Creation -->
+        <h2>Create Booking</h2>
+        <div class="form-group">
+            <label for="guest_name">Guest Name:</label>
+            <input type="text" id="guest_name" value="Jane Doe">
+        </div>
+        <div class="form-group">
+            <label for="room_type_book">Room Type:</label>
+            <input type="text" id="room_type_book" value="Deluxe">
+        </div>
+        <div class="form-group">
+            <label for="start_date_book">Start Date (YYYY-MM-DD):</label>
+            <input type="date" id="start_date_book" value="2025-10-10">
+        </div>
+        <div class="form-group">
+            <label for="end_date_book">End Date (YYYY-MM-DD):</label>
+            <input type="date" id="end_date_book" value="2025-10-12">
+        </div>
+        <div class="form-group">
+            <label for="contact">Contact (Optional):</label>
+            <input type="email" id="contact" value="jane@example.com">
+        </div>
+        <button onclick="createBooking()">Create Booking</button>
+
+        <hr style="border-top: 1px solid #555; margin: 20px 0;">
+
+        <!-- Weather Check -->
+        <h2>Check Weather</h2>
+        <div class="form-group">
+            <label for="city_weather">City:</label>
+            <input type="text" id="city_weather" value="Goa">
+        </div>
+        <button onclick="checkWeather()">Get Weather</button>
+
+        <div class="output" id="output">
+            Results will appear here...
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8000"; 
+        const outputDiv = document.getElementById('output');
+
+        async function postData(endpoint, data) {
+            outputDiv.innerHTML = 'Fetching data...';
+            try {
+                const response = await fetch(API_BASE + endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+                const result = await response.json();
+                outputDiv.innerHTML = JSON.stringify(result, null, 2);
+            } catch (error) {
+                outputDiv.innerHTML = 'Error: ' + error.message;
+            }
+        }
+
+        // NEW FUNCTION for creating a room type
+        function createRoomType() {
+            const data = {
+                name: document.getElementById('room_name_create').value,
+                total_rooms: parseInt(document.getElementById('room_total_create').value),
+                price_per_night: parseFloat(document.getElementById('room_price_create').value),
+            };
+            postData('/rooms', data);
+        }
+
+        function checkAvailability() {
+            const data = {
+                room_type: document.getElementById('room_type_avail').value,
+                start_date: document.getElementById('start_date_avail').value,
+                end_date: document.getElementById('end_date_avail').value,
+            };
+            postData('/availability', data);
+        }
+
+        function createBooking() {
+            const data = {
+                guest_name: document.getElementById('guest_name').value,
+                room_type: document.getElementById('room_type_book').value,
+                start_date: document.getElementById('start_date_book').value,
+                end_date: document.getElementById('end_date_book').value,
+                contact: document.getElementById('contact').value || null,
+            };
+            postData('/booking', data);
+        }
+
+        function checkWeather() {
+            const data = {
+                city: document.getElementById('city_weather').value,
+            };
+            postData('/weather', data);
+        }
+    </script>
+</body>
+</html>

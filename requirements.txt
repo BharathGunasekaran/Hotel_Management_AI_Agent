@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+transformers
+langchain
+requests
+mysql-connector-python
+python-dateutil
+sqlalchemy
