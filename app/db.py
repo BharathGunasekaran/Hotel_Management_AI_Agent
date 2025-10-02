@@ -1,20 +1,14 @@
-# import mysql.connector
-
-# conn = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="bharath",
-#     database="hotel_db"
-# )
-# cursor = conn.cursor(dictionary=True)
-
-
 import mysql.connector
 import os # Import os to access environment variables
 
 # Best practice: use environment variables for sensitive data
 # You would need to set these in your environment, e.g., in a .env file and load them.
 # For demonstration, I'm using placeholders that assume env vars are set.
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "bharath") # IMPORTANT: Set this securely!
+DB_DATABASE = os.getenv("DB_DATABASE", "hotel_db")
+
 
 try:
     conn = mysql.connector.connect(
