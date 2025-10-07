@@ -1,8 +1,4 @@
-fastapi
-uvicorn
-transformers
-langchain
-requests
+google-generativeai
 mysql-connector-python
-python-dateutil
-sqlalchemy
+python-dotenv
+streamlit
