@@ -35,7 +35,8 @@ def initialize_agent():
     tools = [
         hotel_tools.check_availability,
         hotel_tools.book_room,
-        hotel_tools.get_room_overview, # Include our improved tool
+        hotel_tools.get_room_overview,
+        hotel_tools.cancel_booking, # Include our improved tool
     ]
 
     # Create the generative model with the tools

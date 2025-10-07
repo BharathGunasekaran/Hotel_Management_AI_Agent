@@ -134,3 +134,32 @@ def get_room_overview() -> str:
         if conn.is_connected():
             cursor.close()
             conn.close()
+
+# In hotel_tools.py
+def cancel_booking(booking_id: int) -> str:
+    """
+    Cancels a booking based on its unique booking ID.
+    Args:
+        booking_id: The unique identifier for the booking to be cancelled.
+    """
+    print(f"TOOL: Attempting to cancel booking ID: {booking_id}")
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # The logic to delete the booking from the 'bookings' table
+        query = "DELETE FROM bookings WHERE booking_id = %s"
+        cursor.execute(query, (booking_id,))
+        conn.commit()
+
+        if cursor.rowcount > 0:
+            return f"Success! Booking ID {booking_id} has been cancelled."
+        else:
+            return f"Error: Booking ID {booking_id} not found."
+
+    except Exception as e:
+        return f"An error occurred: {e}"
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
