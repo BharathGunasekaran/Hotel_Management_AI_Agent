@@ -11,19 +11,13 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- Agent Initialization ---
-# This part is similar to main.py, but we use caching for efficiency
-
 @st.cache_resource
 def initialize_agent():
-    """
-    Initializes the Gemini agent, loading credentials and configuring the model.
-    Using @st.cache_resource ensures this heavy object is loaded only once.
-    """
     print("--- Initializing Gemini Agent ---")
     # Load environment variables
-    load_dotenv()
-    api_key = os.getenv("GEMINI_API_KEY")
+    # load_dotenv()
+    # api_key = os.getenv("GEMINI_API_KEY")
+    api_key = st.secreats["GEMINI_API_KEY"]
     if not api_key:
         st.error("GEMINI_API_KEY not found. Please set it in the .env file.")
         st.stop()
@@ -36,10 +30,10 @@ def initialize_agent():
         hotel_tools.check_availability,
         hotel_tools.book_room,
         hotel_tools.get_room_overview,
-        hotel_tools.cancel_booking, # Include our improved tool
+        hotel_tools.cancel_booking,
     ]
 
-    # Create the generative model with the tools
+    # Initialize the Agent with the tools
     model = genai.GenerativeModel(
         model_name='gemini-2.5-flash',
         tools=tools
@@ -47,12 +41,8 @@ def initialize_agent():
     return model
 
 # --- Chat Session Management ---
-# We use Streamlit's session_state to keep the chat history alive
 
 def get_chat_session():
-    """
-    Retrieves or creates a chat session from Streamlit's session state.
-    """
     if "chat" not in st.session_state:
         model = initialize_agent()
         # Enable automatic function calling
@@ -61,8 +51,8 @@ def get_chat_session():
 
 # --- Main App UI ---
 
-st.title("🏨 AI Hotel Management Assistant")
-st.info("Ask me to check room availability, book a room, or show an overview of rooms!")
+st.title("🏨 AI Hotel Management Agent")
+st.info("Ask me to check room availability, book a room, or show an overview of rooms, etc...!")
 
 # Initialize or get the chat session
 chat = get_chat_session()
