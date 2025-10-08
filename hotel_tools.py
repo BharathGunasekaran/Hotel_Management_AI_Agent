@@ -2,24 +2,24 @@ import mysql.connector
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-import streamlit as st
+# import streamlit as st
 # Load credentials
 load_dotenv()
 
 # Database connection config
-# DB_CONFIG = {
-#     'host': os.getenv('DB_HOST'),
-#     'user': os.getenv('DB_USER'),
-#     'password': os.getenv('DB_PASSWORD'),
-#     'database': os.getenv('DB_NAME')
-# }
-#Streamlit secrets management
 DB_CONFIG = {
-    'host': st.secrets["DB_HOST"],
-    'user': st.secrets["DB_USER"],
-    'password': st.secrets["DB_PASSWORD"],
-    'database': st.secrets["DB_NAME"]
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
 }
+#Streamlit secrets management
+# DB_CONFIG = {
+#     'host': st.secrets["DB_HOST"],
+#     'user': st.secrets["DB_USER"],
+#     'password': st.secrets["DB_PASSWORD"],
+#     'database': st.secrets["DB_NAME"]
+# }
 
 def get_db_connection():
     """Establishes and returns a database connection."""
