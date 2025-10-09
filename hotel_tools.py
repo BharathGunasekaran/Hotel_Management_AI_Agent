@@ -13,13 +13,6 @@ DB_CONFIG = {
     'password': os.getenv('DB_PASSWORD'),
     'database': os.getenv('DB_NAME')
 }
-#Streamlit secrets management
-# DB_CONFIG = {
-#     'host': st.secrets["DB_HOST"],
-#     'user': st.secrets["DB_USER"],
-#     'password': st.secrets["DB_PASSWORD"],
-#     'database': st.secrets["DB_NAME"]
-# }
 
 def get_db_connection():
     """Establishes and returns a database connection."""
