@@ -59,7 +59,7 @@ def check_availability(room_type: str, check_in_date: str, check_out_date: str) 
     except mysql.connector.Error as err:
         return f"Database error: {err}"
     finally:
-        if conn.is_connected():
+        if conn and conn.is_connected():
             cursor.close()
             conn.close()
 
