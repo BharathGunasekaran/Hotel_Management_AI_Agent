@@ -17,7 +17,6 @@ def initialize_agent():
     # Load environment variables
     load_dotenv()
     api_key = os.getenv("GEMINI_API_KEY")
-    # api_key = st.secreats["GEMINI_API_KEY"]
     if not api_key:
         st.error("GEMINI_API_KEY not found. Please set it in the .env file.")
         st.stop()
